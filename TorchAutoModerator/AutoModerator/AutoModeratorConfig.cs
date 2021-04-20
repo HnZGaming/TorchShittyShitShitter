@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using AutoModerator.Grids;
-using AutoModerator.Players;
 using AutoModerator.Punishes;
 using AutoModerator.Punishes.Broadcasts;
 using AutoModerator.Warnings;
@@ -18,17 +16,8 @@ namespace AutoModerator
 {
     public sealed class AutoModeratorConfig :
         ViewModel,
-        EntityGpsBroadcaster.IConfig,
-        BroadcastListenerCollection.IConfig,
         FileLoggingConfigurator.IConfig,
-        GridLagTracker.IConfig,
-        PlayerLagTracker.IConfig,
-        LagQuestlogCollection.IConfig,
-        LagPunishExecutor.IConfig,
-        LagPunishChatFeed.IConfig,
-        LagNotificationCollection.IConfig,
-        LagWarningTracker.IConfig,
-        LagWarningChatFeed.IConfig
+        Core.AutoModerator.IConfig
     {
         const string OpGroupName = "Auto Moderator";
         const string OpGridGroupName = "Auto Moderator (Grids)";
@@ -301,6 +290,8 @@ namespace AutoModerator
             get => _exemptBlockTypePairs;
             set => SetValue(ref _exemptBlockTypePairs, value);
         }
+
+        IEnumerable<string> Core.AutoModerator.IConfig.ExemptBlockTypePairs => ExemptBlockTypePairs;
 
         [XmlElement]
         [Display(Order = 2, Name = "Damage per interval (0-1)", GroupName = DamageGroupName,

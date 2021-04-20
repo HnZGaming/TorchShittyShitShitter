@@ -163,6 +163,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="AutoModerator.Core\AutoModerator.cs" />
         <Compile Include="AutoModerator.Core\BlockTypePairCollection.cs" />
         <Compile Include="AutoModerator.Punishes.Broadcasts\GridGpsSource.cs" />
         <Compile Include="AutoModerator.Core\TrackedEntitySnapshot.cs" />

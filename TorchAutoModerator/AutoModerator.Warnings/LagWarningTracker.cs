@@ -55,6 +55,11 @@ namespace AutoModerator.Warnings
             _listeners.Remove(stateListener);
         }
 
+        public void ClearListeners()
+        {
+            _listeners.Clear();
+        }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Clear()
         {

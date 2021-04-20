@@ -16,6 +16,8 @@ namespace AutoModerator
         static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
         AutoModeratorPlugin Plugin => (AutoModeratorPlugin) Context.Plugin;
+        AutoModeratorConfig Config => Plugin.Config;
+        Core.AutoModerator AutoModerator => Plugin.AutoModerator;
 
         [Command("configs", "Get or set config")]
         [Permission(MyPromoteLevel.Admin)]
@@ -35,7 +37,7 @@ namespace AutoModerator
         [Permission(MyPromoteLevel.Admin)]
         public void Clear() => this.CatchAndReport(() =>
         {
-            Plugin.ClearCache();
+            AutoModerator.ClearCache();
             Context.Respond("cleared all internal state");
         });
 
@@ -43,7 +45,7 @@ namespace AutoModerator
         [Permission(MyPromoteLevel.Admin)]
         public void ShowGpss() => this.CatchAndReport(() =>
         {
-            var gpss = Plugin.GetAllGpss();
+            var gpss = AutoModerator.GetAllGpss();
 
             if (!gpss.Any())
             {
@@ -70,7 +72,7 @@ namespace AutoModerator
                 return;
             }
 
-            Plugin.Config.AddMutedPlayer(Context.Player.SteamUserId);
+            Config.AddMutedPlayer(Context.Player.SteamUserId);
             Context.Respond("Muted broadcasting. It may take some time to take effect.");
         });
 
@@ -84,7 +86,7 @@ namespace AutoModerator
                 return;
             }
 
-            Plugin.Config.RemoveMutedPlayer(Context.Player.SteamUserId);
+            Config.RemoveMutedPlayer(Context.Player.SteamUserId);
             Context.Respond("Unmuted broadcasting. It may take some time to take effect.");
         });
 
@@ -92,7 +94,7 @@ namespace AutoModerator
         [Permission(MyPromoteLevel.Admin)]
         public void UnmuteBroadcastsToAll() => this.CatchAndReport(() =>
         {
-            Plugin.Config.RemoveAllMutedPlayers();
+            Config.RemoveAllMutedPlayers();
         });
 
         [Command("clearwarning", "Clear quest HUD.")]
@@ -100,7 +102,7 @@ namespace AutoModerator
         public void ClearQuests() => this.CatchAndReport(() =>
         {
             Context.Player.ThrowIfNull("must be called by a player");
-            Plugin.ClearQuestForUser(Context.Player.IdentityId);
+            AutoModerator.ClearQuestForUser(Context.Player.IdentityId);
         });
 
         [Command("laggiest", "Get the laggiest grid of player. -id or -name to specify the player name other than yourself.")]
@@ -115,7 +117,7 @@ namespace AutoModerator
 
                 if (option.TryParseLong("id", out playerId))
                 {
-                    if (!Plugin.TryTraverseTrackedPlayerById(playerId, out playerName))
+                    if (!AutoModerator.TryTraverseTrackedPlayerById(playerId, out playerName))
                     {
                         Context.Respond($"Online player not found: {playerId}", Color.Red);
                         return;
@@ -126,7 +128,7 @@ namespace AutoModerator
 
                 if (option.TryParse("name", out playerName))
                 {
-                    if (!Plugin.TryTraverseTrackedPlayerByName(playerName, out playerId))
+                    if (!AutoModerator.TryTraverseTrackedPlayerByName(playerName, out playerId))
                     {
                         Context.Respond($"Online player not found: {playerName}", Color.Red);
                         return;
@@ -153,7 +155,7 @@ namespace AutoModerator
                 return;
             }
 
-            if (!Plugin.TryGetLaggiestGridOwnedBy(playerId, out var grid))
+            if (!AutoModerator.TryGetLaggiestGridOwnedBy(playerId, out var grid))
             {
                 Context.Respond($"No grid tracked for player: {playerName ?? $"<{playerId}>"}");
                 return;

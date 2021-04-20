@@ -103,7 +103,7 @@ namespace AutoModerator
                 {
                     var gridName = grid.DisplayName;
                     var mspf = profilerEntry.MainThreadTime / gridProfileResult.TotalFrameCount;
-                    var lagNormal = mspf / Plugin.Config.MaxGridMspf;
+                    var lagNormal = mspf / Config.MaxGridMspf;
                     msgBuilder.AppendLine($"\"{gridName}\" {lagNormal * 100:0}%");
                 }
 
@@ -133,7 +133,7 @@ namespace AutoModerator
                 Context.Respond(msgBuilder.ToString());
             }
 
-            Plugin.OnSelfProfiled(playerId);
+            AutoModerator.OnSelfProfiled(playerId);
         });
     }
 }

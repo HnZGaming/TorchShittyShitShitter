@@ -52,7 +52,7 @@ namespace AutoModerator
 
                 if (option.TryParseLong("id", out var specificEntityId))
                 {
-                    if (!Plugin.TryGetTrackedEntity(specificEntityId, out _))
+                    if (!AutoModerator.TryGetTrackedEntity(specificEntityId, out _))
                     {
                         Context.Respond($"Entity not tracked: {specificEntityId}", Color.Red);
                         return;
@@ -64,7 +64,7 @@ namespace AutoModerator
 
                 if (option.TryParse("name", out var entityName))
                 {
-                    if (!Plugin.TryTraverseEntityByName(entityName, out var entity))
+                    if (!AutoModerator.TryTraverseEntityByName(entityName, out var entity))
                     {
                         Context.Respond($"Entity not tracked by name: {entityName}", Color.Red);
                         return;
@@ -130,7 +130,7 @@ namespace AutoModerator
             Context.Respond("Gathering data...");
 
             var players = new List<TrackedEntitySnapshot>();
-            foreach (var s in OrderForInspection(Plugin.GetTrackedPlayers()))
+            foreach (var s in OrderForInspection(AutoModerator.GetTrackedPlayers()))
             {
                 if (calledByNormalPlayer)
                 {
@@ -141,7 +141,7 @@ namespace AutoModerator
             }
 
             var grids = new List<TrackedEntitySnapshot>();
-            foreach (var s in OrderForInspection(Plugin.GetTrackedGrids()).Take(top))
+            foreach (var s in OrderForInspection(AutoModerator.GetTrackedGrids()).Take(top))
             {
                 if (calledByNormalPlayer)
                 {
@@ -158,7 +158,7 @@ namespace AutoModerator
             {
                 msgBuilder.AppendLine("Players:");
 
-                var warningStates = Plugin.GetWarningState();
+                var warningStates = AutoModerator.GetWarningState();
                 foreach (var s in players)
                 {
                     var warning = warningStates.GetOrElse(s.Id, null);
@@ -194,7 +194,7 @@ namespace AutoModerator
             var lagGraph = MakeOnelinerGraph(30, 1, s.LongLagNormal);
 
             var pinSecs = s.RemainingTime.TotalSeconds;
-            var pinSecsNormal = pinSecs / Plugin.Config.PunishTime;
+            var pinSecsNormal = pinSecs / Config.PunishTime;
             var pinGraph = MakeOnelinerGraph(30, 1, pinSecsNormal, false);
             pinGraph = s.IsPinned ? $"{pinGraph} pin {pinSecs:0} secs" : "no pin";
             var warning = w?.Quest > LagQuest.None ? $"warning: {w.Quest} ({w.LastWarningLagNormal * 100:0}%)" : "";
@@ -225,13 +225,13 @@ namespace AutoModerator
 
         void InspectEntity(long entityId, bool showOutlierTests)
         {
-            if (!Plugin.TryGetTimeSeries(entityId, out var timeSeries))
+            if (!AutoModerator.TryGetTimeSeries(entityId, out var timeSeries))
             {
                 Context.Respond("Time series not found", Color.Red);
                 return;
             }
 
-            if (!Plugin.TryGetTrackedEntity(entityId, out var entity))
+            if (!AutoModerator.TryGetTrackedEntity(entityId, out var entity))
             {
                 Context.Respond("Tracked entity not found", Color.Red);
                 return;
@@ -262,7 +262,7 @@ namespace AutoModerator
             msgBuilder.AppendLine($"Lag (evaluated): {entity.LongLagNormal * 100:0}%");
             msgBuilder.AppendLine(entity.IsPinned ? $"Pinned for next {entity.RemainingTime.TotalSeconds} seconds" : "Not pinned");
 
-            if (Plugin.GetWarningState().TryGetValue(entityId, out var w))
+            if (AutoModerator.GetWarningState().TryGetValue(entityId, out var w))
             {
                 msgBuilder.AppendLine($"Warning: {w.Quest} (Normal: {w.LastWarningLagNormal * 100:0}%)");
             }
