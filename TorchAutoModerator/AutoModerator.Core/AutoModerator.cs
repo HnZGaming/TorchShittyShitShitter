@@ -89,7 +89,7 @@ namespace AutoModerator.Core
             _lagWarningTracker.Clear();
 
             // Wait for some time during the session startup
-            await Task.Delay(_config.FirstIdleTime.Seconds(), canceller);
+            await TaskUtils.Delay(() => _config.FirstIdleTime.Seconds(), 1.Seconds(), canceller);
 
             Log.Info("started collector loop");
 
