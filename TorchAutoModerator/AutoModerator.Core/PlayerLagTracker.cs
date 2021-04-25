@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using AutoModerator.Core;
 using NLog;
 using Profiler.Basics;
 using Sandbox.Game.World;
 using Utils.General;
 using Utils.TimeSerieses;
 
-namespace AutoModerator.Players
+namespace AutoModerator.Core
 {
     public sealed class PlayerLagTracker
     {

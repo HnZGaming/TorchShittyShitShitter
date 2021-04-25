@@ -164,11 +164,11 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AutoModerator.Core\AutoModerator.cs" />
+        <Compile Include="AutoModerator.Core\GridLagTracker.cs" />
         <Compile Include="AutoModerator.Core\BlockTypePairCollection.cs" />
+        <Compile Include="AutoModerator.Core\PlayerLagTracker.cs" />
         <Compile Include="AutoModerator.Punishes.Broadcasts\GridGpsSource.cs" />
         <Compile Include="AutoModerator.Core\TrackedEntitySnapshot.cs" />
-        <Compile Include="AutoModerator.Grids\GridLagTracker.cs" />
-        <Compile Include="AutoModerator.Players\PlayerLagTracker.cs" />
         <Compile Include="AutoModerator.Punishes.Broadcasts\BroadcastListenerCollection.cs" />
         <Compile Include="AutoModerator.Punishes\LagPunishChatFeed.cs" />
         <Compile Include="AutoModerator.Punishes\LagPunishChatSource.cs" />

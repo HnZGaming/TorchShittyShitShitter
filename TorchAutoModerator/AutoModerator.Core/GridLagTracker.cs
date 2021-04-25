@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using AutoModerator.Core;
 using NLog;
 using Profiler.Basics;
 using Sandbox.Game.Entities;
@@ -12,7 +11,7 @@ using Utils.TimeSerieses;
 using Utils.Torch;
 using VRage.Game.ModAPI;
 
-namespace AutoModerator.Grids
+namespace AutoModerator.Core
 {
     public sealed class GridLagTracker
     {

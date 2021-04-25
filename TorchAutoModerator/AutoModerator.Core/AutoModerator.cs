@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoModerator.Grids;
-using AutoModerator.Players;
 using AutoModerator.Punishes;
 using AutoModerator.Punishes.Broadcasts;
 using AutoModerator.Warnings;
